@@ -16,7 +16,7 @@ Staticish - make a singleton class with "static" method wrappers
         has Str $.bar is rw;
     }
 
-    Foo.bar = "There you go";
+    Foo.new(bar => "There you go");
     say Foo.bar; # > "There you go";
 
 =end code
@@ -51,13 +51,17 @@ module Staticish:ver<v0.0.1>:auth<github:jonathanstowe> {
         my %bypass = :new, :bless, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
         method add_method(Mu \type, $name, $code) {
             if not %bypass{$name}:exists {
-                $code.wrap(method ( $self: |c) {
+                my Bool $rw = so $code.rw;
+                my $wrapper = method ( $self: |c) {
                     my $new-self = $self;
                     if not $new-self.defined {
                         $new-self = $self.new;
                     }
                     callwith($new-self,|c);
-                });
+                };
+                $wrapper.set_rw() if $rw;
+                $code.wrap($wrapper);
+                $code.set_rw() if $rw;
             }
             nextsame;
         }
