@@ -29,7 +29,6 @@ is(Foo.say-foo, "say this one", "called as a class method got the attribute");
 is(Foo.say-foo("blub"), "blub this one", "check that with an argument");
 isa-ok(Bar.new, Bar, "another class doesn't wind up the wrong class");
 ok(!Bar.foo.defined, "and the similarly named attribute isn't the same");
-todo("rw accessors not working",2);
 lives-ok { Bar.foo = "test test" }, "set attribute with public accessor";
 is(Bar.foo, "test test", "and it got set correctly");
 is(Foo.foo, "this one", "and just last check on class");

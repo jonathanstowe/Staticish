@@ -16,7 +16,7 @@ Staticish - make a singleton class with "static" method wrappers
         has Str $.bar is rw;
     }
 
-    Foo.new(bar => "There you go");
+    Foo.bar = "There you go";
     say Foo.bar; # > "There you go";
 
 =end code
@@ -46,22 +46,29 @@ the other trait introducing verbs to me.)
 
 =end pod
 
-module Staticish:ver<v0.0.1>:auth<github:jonathanstowe> {
+module Staticish:ver<v0.0.2>:auth<github:jonathanstowe> {
     role MetamodelX::StaticHOW {
         my %bypass = :new, :bless, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
         method add_method(Mu \type, $name, $code) {
             if not %bypass{$name}:exists {
                 my Bool $rw = so $code.rw;
-                my $wrapper = method ( $self: |c) {
+                # This is horrid but callwith needs to see the 'rw'
+                # when the wrapper is compiled it seems
+                my $wrapper = $rw ?? method ( $self: |c) is rw {
+                    my $new-self = $self;
+                    if not $new-self.defined {
+                        $new-self = $self.new;
+                    }
+                    callwith($new-self,|c);
+                }
+                !! method ( $self: |c) {
                     my $new-self = $self;
                     if not $new-self.defined {
                         $new-self = $self.new;
                     }
                     callwith($new-self,|c);
                 };
-                $wrapper.set_rw() if $rw;
                 $code.wrap($wrapper);
-                $code.set_rw() if $rw;
             }
             nextsame;
         }
