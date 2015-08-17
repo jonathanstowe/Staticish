@@ -43,7 +43,6 @@ ok(!Bar.foo.defined, "and the similarly named attribute isn't the same");
 lives-ok { Bar.foo = "test test" }, "set attribute with public accessor";
 is(Bar.foo, "test test", "and it got set correctly");
 is(Foo.foo, "this one", "and just last check on class");
-todo("not working for multis yet",4);
 lives-ok { $a = Multi.multi-foo(1) }, "multi";
 is($a, "Int 1", "multi works (Int)");
 lives-ok { $a = Multi.multi-foo("foo") }, "multi";
