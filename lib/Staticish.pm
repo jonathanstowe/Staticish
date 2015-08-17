@@ -49,28 +49,30 @@ the other trait introducing verbs to me.)
 module Staticish:ver<v0.0.2>:auth<github:jonathanstowe> {
     role MetamodelX::StaticHOW {
         my %bypass = :new, :bless, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
-        method add_method(Mu \type, $name, $code) {
-            if not %bypass{$name}:exists {
-                my Bool $rw = so $code.rw;
-                # This is horrid but callwith needs to see the 'rw'
-                # when the wrapper is compiled it seems
-                my $wrapper = $rw ?? method ( $self: |c) is rw {
-                    my $new-self = $self;
-                    if not $new-self.defined {
-                        $new-self = $self.new;
+        method compose(Mu $obj) {
+            callsame;
+            for  $obj.^method_table.kv -> $name, $code {
+                if not %bypass{$name}:exists {
+                    my Bool $rw = so $code.rw;
+                    # This is horrid but callwith needs to see the 'rw'
+                    # when the wrapper is compiled it seems
+                    my $wrapper = $rw ?? method ( $self: |c) is rw {
+                        my $new-self = $self;
+                        if not $new-self.defined {
+                            $new-self = $self.new;
+                        }
+                        callwith($new-self,|c);
                     }
-                    callwith($new-self,|c);
+                    !! method ( $self: |c) {
+                        my $new-self = $self;
+                        if not $new-self.defined {
+                            $new-self = $self.new;
+                        }
+                        callwith($new-self,|c);
+                    };
+                    $code.wrap($wrapper);
                 }
-                !! method ( $self: |c) {
-                    my $new-self = $self;
-                    if not $new-self.defined {
-                        $new-self = $self.new;
-                    }
-                    callwith($new-self,|c);
-                };
-                $code.wrap($wrapper);
             }
-            nextsame;
         }
     }
 
