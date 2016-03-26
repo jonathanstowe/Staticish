@@ -50,7 +50,7 @@ the other trait introducing verbs to me.)
 # wrap causes a serialization error
 no precompilation;
 
-module Staticish:ver<0.0.5>:auth<github:jonathanstowe> {
+module Staticish:ver<0.0.6>:auth<github:jonathanstowe> {
     role MetamodelX::StaticHOW {
         my %bypass = :new, :bless, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
         method compose(Mu $obj) {
