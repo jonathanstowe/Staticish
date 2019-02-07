@@ -53,28 +53,32 @@ no precompilation;
 module Staticish:ver<0.0.6>:auth<github:jonathanstowe> {
     role MetamodelX::StaticHOW {
         my %bypass = :new, :bless, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
+
+        method _rw_wrapper($self: |c) is rw {
+            my $new-self = $self;
+            if not $new-self.defined {
+                $new-self = $self.new;
+            }
+            callwith($new-self,|c);
+        }
+
+        method _ro_wrapper($self: |c) {
+            my $new-self = $self;
+            if not $new-self.defined {
+                $new-self = $self.new;
+            }
+            callwith($new-self,|c);
+        }
+
+
         method compose(Mu $obj) {
             callsame;
-            #my %public-rw-attrs = $obj.^attributes.grep({$_.has_accessor && $_.rw }).map({ $_.name.substr(2) => True });
             for  $obj.^method_table.kv -> $name, $code {
                 if not %bypass{$name}:exists {
-                    my Bool $rw = so $code.rw; # or %public-rw-attrs{$name});
+                    my Bool $rw = so $code.rw;
                     # This is horrid but callwith needs to see the 'rw'
                     # when the wrapper is compiled it seems
-                    my $wrapper = $rw ?? method ( $self: |c) is rw {
-                        my $new-self = $self;
-                        if not $new-self.defined {
-                            $new-self = $self.new;
-                        }
-                        callwith($new-self,|c);
-                    }
-                    !! method ( $self: |c) {
-                        my $new-self = $self;
-                        if not $new-self.defined {
-                            $new-self = $self.new;
-                        }
-                        callwith($new-self,|c);
-                    };
+                    my $wrapper = $rw ?? self.^find_method('_rw_wrapper') !! self.^find_method('_ro_wrapper');
                     $code.wrap($wrapper);
                 }
             }
