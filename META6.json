@@ -4,7 +4,7 @@
   "support": {
     "source": "git://github.com/jonathanstowe/Staticish.git"
   },
-  "perl": "6.c",
+  "perl": "6.*",
   "resources": [
     
   ],
