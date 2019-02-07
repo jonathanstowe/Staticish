@@ -46,10 +46,6 @@ the other trait introducing verbs to me.)
 
 =end pod
 
-# Unfortunately required until I can work out why the
-# wrap causes a serialization error
-no precompilation;
-
 module Staticish:ver<0.0.6>:auth<github:jonathanstowe> {
     role MetamodelX::StaticHOW {
         my %bypass = :new, :bless, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
