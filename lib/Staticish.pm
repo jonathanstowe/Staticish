@@ -46,7 +46,7 @@ the other trait introducing verbs to me.)
 
 =end pod
 
-module Staticish:ver<0.0.6>:auth<github:jonathanstowe> {
+module Staticish:ver<0.0.7>:auth<github:jonathanstowe>:api<1.0> {
     role MetamodelX::StaticHOW {
         my %bypass = :new, :bless, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
 
