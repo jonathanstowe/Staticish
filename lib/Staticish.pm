@@ -46,9 +46,9 @@ the other trait introducing verbs to me.)
 
 =end pod
 
-module Staticish:ver<0.0.7>:auth<github:jonathanstowe>:api<1.0> {
+module Staticish:ver<0.0.8>:auth<github:jonathanstowe>:api<1.0> {
     role MetamodelX::StaticHOW {
-        my %bypass = :new, :bless, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
+        my %bypass = :new, :bless, :TWEAK, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
 
         method _rw_wrapper($self: |c) is rw {
             my $new-self = $self;
@@ -97,4 +97,4 @@ module Staticish:ver<0.0.7>:auth<github:jonathanstowe>:api<1.0> {
     }
 }
 
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku

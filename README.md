@@ -2,6 +2,20 @@
 
 Make a singleton class that wraps the methods so they appear like class methods
 
+![Build Status](https://github.com/jonathanstowe/Staticish/workflows/CI/badge.svg)
+
+## Synopsis
+
+    use Staticish;
+
+    class Foo is Static {
+        has Str $.bar is rw;
+    }
+
+    Foo.bar = "There you go";
+    say Foo.bar; # > "There you go";
+
+
 ## Description
 
 This provides a mechanism whereby a class can be treated as a "singleton"
@@ -24,8 +38,7 @@ does what I need it to.  Suggestions, patches etc are welcome.
 
 ## Installation
 
-Assuming you have a working Rakudo Perl 6 installation you should be able to
-install this with *zef* :
+Assuming you have a working Rakudo installation you should be able to install this with *zef* :
 
     # From the source directory
    
@@ -38,7 +51,11 @@ install this with *zef* :
 
 ## Support
 
-Suggestions/patches are welcomed via github at https://github.com/jonathanstowe/Staticish/issues
+This has never worked quite as well as I'd hoped when pre-compiled into another module as it 
+flies too close to the wind of what will work.  If you find you hit a problem with it then you
+should try adding `no precompilation;` to your module before the `use Staticish;`.
+
+Suggestions/patches are welcomed via [github](https://github.com/jonathanstowe/Staticish/issues)
 
 ## Licence
 
@@ -46,4 +63,4 @@ This is free software.
 
 Please see the [LICENCE](LICENCE) file in the distribution
 
-© Jonathan Stowe 2015 - 2019
+© Jonathan Stowe 2015 - 2021

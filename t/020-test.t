@@ -1,4 +1,4 @@
-#!perl6
+#!raku
 
 use v6;
 
@@ -47,4 +47,4 @@ lives-ok { $a = Multi.multi-foo("foo") }, "multi";
 is($a, "Str foo", "multi works (Str)");
 
 done-testing;
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku
