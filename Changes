@@ -1,3 +1,5 @@
+v0.0.9	Sun  7 Aug 09:42:55 BST 2022
+	* Upload to zef repository
 v0.0.8		Sat  3 Apr 08:05:51 BST 2021
 	* Rename, Spring clean and switch to GH actions
 v0.0.7      Thu  7 Feb 09:44:59 GMT 2019
@@ -11,3 +13,4 @@ v0.0.5		Sun Mar 6 19:23:07 2016 +0000
 	* Bump version
 	* Make rw methods work somewhat properly
 	* rw accessors don't quite work yet
+
