@@ -48,7 +48,7 @@ the other trait introducing verbs to me.)
 
 module Staticish:ver<0.0.8>:auth<github:jonathanstowe>:api<1.0> {
     role MetamodelX::StaticHOW {
-        my %bypass = :new, :bless, :TWEAK, :BUILDALL, :BUILD, 'dispatch:<!>' => True;
+        my %bypass = :new, :bless, :TWEAK, :BUILDALL, :POPULATE, :BUILD, 'dispatch:<!>' => True;
 
         method _rw_wrapper($self: |c) is rw {
             my $new-self = $self;
